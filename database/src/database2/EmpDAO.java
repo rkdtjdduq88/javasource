@@ -64,7 +64,7 @@ public class EmpDAO {
 			
 			con = getConnection();	
 			//ename 이 홍길동인 사람 조회(empno, ename, job, hiredate)
-			String sql = "SELECT empno,ename,job,hiredate FROM emp_temp WHERE ename = '?'";
+			String sql = "SELECT empno,ename,job,hiredate FROM emp_temp WHERE ename = ?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, ename);
 			
@@ -117,7 +117,30 @@ public class EmpDAO {
 			close(con, pstmt, rs);
 		}
 		return empDTO;
-	} 
+	}//getRow 종료
+	
+	// 급여 수정
+	public boolean update(int sal, int empno) {
+		boolean status = false;
+		try {
+			//사번이 일치하면 급여 수정
+			String sql="UPDATE emp_temp SET sal = ? WHERE empno = ?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, sal);
+			pstmt.setInt(2, empno);
+			
+			int result = pstmt.executeUpdate();
+			
+			if(result>0) status = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(con, pstmt);
+		}
+		return status;
+	}
+	
 }
 
 
