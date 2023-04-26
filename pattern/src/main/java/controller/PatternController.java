@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import action.Action;
+import action.ActionFactory;
+import action.ActionForward;
 import action.DeleteAction;
 import action.InsertAction;
 
@@ -19,38 +23,32 @@ public class PatternController extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		
-		String requestURI = request.getRequestURI();
+		String requestURI = request.getRequestURI(); // /pattern/list.do
 		// 프로젝트 == context
-		String contextPath = request.getContextPath();
-		String cmd = requestURI.substring(contextPath.length());
+		String contextPath = request.getContextPath(); // /pattern
+		String cmd = requestURI.substring(contextPath.length());  // substring으로 프로젝트명 이후부분만 호출 => /list.do
 		
 		System.out.println("requestURI "+ requestURI);
 		System.out.println("contextPath "+ contextPath);
 		System.out.println("cmd "+ cmd);
 		
-		Action action = null;
+		ActionFactory actionFactory = ActionFactory.getInstance();		
+		Action action = actionFactory.action(cmd);		
 		
-		// 어디서 요청이 왔는지
-		if(cmd.equals("/insert.do")) {
-			action = new  InsertAction();
-			try {
-				action.execute(request);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			
-		}else if(cmd.equals("/list.do")){
-			
-		}else if(cmd.equals("/update.do")) {
-			
-		}else if(cmd.equals("/delete.do")) {
-			action = new DeleteAction();
-			try {
-				action.execute(request);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		// 생성된 액션에 일 시키기(메소드호출)
+		ActionForward af =null;
+		try {
+			af = action.execute(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//
+		if(af.isRedirect()) {
+			response.sendRedirect(af.getPath());
+		}else {
+			RequestDispatcher rd = request.getRequestDispatcher(af.getPath());
+			rd.forward(request, response);
 		}
 	}
 	
