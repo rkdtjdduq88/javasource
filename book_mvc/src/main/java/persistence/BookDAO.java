@@ -226,8 +226,44 @@ public class BookDAO {
 		}
 		return flag;
 	}
+	
+	public List<BookDTO> getSearchList(String criteria, String keyword){
+		List<BookDTO> list = new ArrayList<>();
+				
+		try {
+			con = getConnection();
+//					// criteria value=> writer or title
+//					String sql = "select code, title, writer, price from booktbl where ";
+//			if(criteria.equals("writer")) {
+//				sql += "writer like ?"; // 부분만 검색해도 값이 나와야 하기 때문에 = 이 아니라 like 를 썼음
+//			}else {
+//				sql += "title like ?"; // 부분만 검색해도 값이 나와야 하기 때문에 = 이 아니라 like 를 썼음
+//			}
+					
+			String sql = "select code, title, writer, price from booktbl where " + criteria + " like ? order by code";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "%"+keyword+"%");
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {				
+				BookDTO dto = new BookDTO();
+				dto.setCode(rs.getInt("code"));
+				dto.setTitle(rs.getString("title"));
+				dto.setWriter(rs.getString("writer"));
+				dto.setPrice(rs.getInt("price"));
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(con, pstmt, rs);
+		}
+		
+		return list;
+	}
 }
-
 
 
 
