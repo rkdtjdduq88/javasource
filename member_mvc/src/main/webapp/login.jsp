@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="include/header.jsp" %>
 	<h1>Login</h1>
-	<main class="form-signin w-100 m-auto">
+<main class="form-signin w-100 m-auto">
   <form method="post" action='<c:url value="/login.do" />'>    
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
     <div class="form-floating">

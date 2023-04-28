@@ -95,21 +95,30 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="index.jsp">Home</a>
         </li>
-         <li class="nav-item">
-         
          <c:if test="${loginDto == null}">
-          <a class="nav-link" href='<c:url value="/login.jsp"/>'>로그인</a>         	
+         	<li class="nav-item">         
+          		<a class="nav-link" href='<c:url value="/login.jsp"/>'>로그인</a>         	
+         	</li>
+       		 <li class="nav-item">
+         		 <a class="nav-link" href='<c:url value="/register.jsp"/>'>회원가입</a>
+        	</li>
          </c:if>
+         
          <c:if test="${loginDto != null}">
-          <a class="nav-link" href='<c:url value="/logout.do"/>'>로그아웃</a>         	
+         	<li class="nav-item">
+         		 <a class="nav-link" href='<c:url value="/logout.do"/>'>로그아웃</a>         	
+      		</li>
+      		<li class="nav-item">
+         		 <a class="nav-link" href='<c:url value="/changePwd.jsp"/>'>비밀변호변경</a>         	
+      		</li>
+      		<li class="nav-item">
+         		 <a class="nav-link" href='<c:url value="/leave.jsp"/>'>회원탈퇴</a>         	
+      		</li>
+        	<li class="nav-item">
+         		 <a class="nav-link" href="">회원조회</a>
+        	</li>
          </c:if>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href='<c:url value="/register.jsp"/>'>회원가입</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">회원조회</a>
-        </li>
+         
         <li class="nav-item">
           <a class="nav-link">Disabled</a>
         </li>

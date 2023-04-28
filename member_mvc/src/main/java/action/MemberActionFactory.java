@@ -20,6 +20,12 @@ public class MemberActionFactory {
 			action = new MemberLogoutAction();
 		}else if(cmd.equals("/register.do")) {
 			action = new MemberRegisterAction();
+		}else if(cmd.equals("/change.do")) {
+			action = new MemberChangeAction();
+		}else if(cmd.equals("/leave.do")) {
+			action = new MemberLeaveAction();
+		}else if(cmd.equals("/dupId.do")) {
+			action = new MemberDupAction();
 		}
 		
 		return action;
