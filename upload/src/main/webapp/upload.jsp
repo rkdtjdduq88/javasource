@@ -1,3 +1,5 @@
+<%@page import="java.net.URLEncoder"%>
+<%@page import="java.util.UUID"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="org.apache.commons.fileupload.FileItem"%>
 <%@page import="java.util.List"%>
@@ -43,9 +45,22 @@
 		        
 		        // 파일 저장
 		        if(!name.isEmpty()){
-		        	String path = "c:\\upload";		        	
-		        	File f = new File(path+"\\"+value); // c:\\upload//test.html
+		        	String path = "c:\\upload";	
+		        	
+		        	// 고유값 생성
+		        	UUID uuid = UUID.randomUUID();
+		        	
+		        	File f = new File(path+"\\"+uuid.toString()+"_"+value); // c:\\upload//test.html
 		        	item.write(f); // 파일저장코드
+		        	
+		        	
+		        	// 다운로드를 위한 링크 생성
+		        	String encodeName = URLEncoder.encode(f.getName(),"utf-8");
+		        	
+		        	
+		        	out.print("<p>");
+		        	out.print("<a href='download.jsp?fileName="+encodeName+"'>"+value+"</a>");
+		        	out.print("</p>");
 		        }
 		    }
 		}

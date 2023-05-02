@@ -38,5 +38,5 @@
 	</c:forEach>	
 </tbody>
 </table>
-<script src='<c:url value="/js/list.js"/>'5></script>
+<script src='<c:url value="/js/list.js"/>'></script>
 <%@ include file="/include/footer.jsp"%>
