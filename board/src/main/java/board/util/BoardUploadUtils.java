@@ -62,6 +62,8 @@ public class BoardUploadUtils {
 				        	formData.put(name, f.getName());
 				        	
 				        	item.write(f); // 파일저장코드
+				        	
+				        	
 				        }
 				    }
 				}
@@ -72,4 +74,3 @@ public class BoardUploadUtils {
 		return formData;
 	}
 }
-
