@@ -29,7 +29,15 @@ public class BoardActionFactory {
 			action = new BoardUpdateAction();
 		}else if(cmd.equals("/delete.do")) {
 			action = new BoardDeleteAction();
+		}else if(cmd.equals("/replyView.do")) {
+			action = new BoardReplyViewAction();
+		}else if(cmd.equals("/reply.do")) {
+			action = new BoardReplyAction();
 		}
+		
+//		else if(cmd.equals("/search.do")) {
+//			action = new BoardSearchAction();
+//		}
 		
 		return action;
 	}
