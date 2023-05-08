@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import board.domain.BoardDTO;
 import board.domain.PageDTO;
 import board.service.BoardListService;
+import board.service.BoardTotalService;
 
 public class BoardListAction implements Action {
 
@@ -19,21 +20,28 @@ public class BoardListAction implements Action {
 		String criteria = request.getParameter("criteria");
 		String keyword = request.getParameter("keyword");
 		
-		// 페이지 나누기 정보 가져오기
-		int page = Integer.parseInt(request.getParameter("page"));
-		if(page == 0) {
-			page = 1;
+		// 페이지 나누기 정보 가져오기		
+		int page = 1;		
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page"));
 		}
-		int amount = Integer.parseInt(request.getParameter("amount"));
-		if(amount == 0) {
-			amount = 30;
+		int amount = 30;		
+		if(request.getParameter("amount") != null) {
+			amount = Integer.parseInt(request.getParameter("amount"));
 		}
 		
 		PageDTO pageDTO = new PageDTO(criteria, keyword, page, amount);
 		
+		// 전체 게시물 가져오기
+		BoardTotalService totSer = new BoardTotalService();
+		int total = totSer.getTotalRow(pageDTO);
+		
 		// service
 		BoardListService service = new BoardListService();		
 		List<BoardDTO> list = service.getlist(pageDTO);
+		
+		// 페이지 나누기 정보와 검색 정보 담아주기
+		pageDTO = new PageDTO(criteria, keyword, page, amount, total);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("pageDTO", pageDTO);
